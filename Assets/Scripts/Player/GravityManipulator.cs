@@ -78,11 +78,14 @@ public class GravityManipulator : MonoBehaviour
         Vector3 mouse = cam.ScreenToWorldPoint(Input.mousePosition);
         mouse.z = 0;
 
-        Vector2 direction =
-            (mouse - gravityOrigin.position).normalized;
+        Vector2 direction = (mouse - transform.position).normalized;
+
+        float raycastOffset = 0.6f;
+
+        Vector2 raycastOrigin = (Vector2)transform.position + direction * raycastOffset;
 
         RaycastHit2D hit = Physics2D.Raycast(
-            gravityOrigin.position,
+            raycastOrigin,
             direction,
             interactionDistance
         );
