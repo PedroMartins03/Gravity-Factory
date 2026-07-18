@@ -14,7 +14,17 @@ public class GravityManipulator : MonoBehaviour
     [SerializeField] private Color hoverColor = Color.cyan;
     [SerializeField] private Color selectedColor = Color.green;
 
+
+    [SerializeField] private LayerMask interactionLayers;
+
     private GravityObject selectedObject;
+
+
+    [SerializeField]
+    private float laserWaveAmplitude = 0.03f;
+
+    [SerializeField]
+    private float laserWaveSpeed = 8f;
 
     private Camera cam;
 
@@ -47,20 +57,24 @@ public class GravityManipulator : MonoBehaviour
 
     void DetectObject()
     {
-
+        // OBJETO JÁ SELECIONADO
         if (selectedObject != null)
         {
             laser.enabled = true;
 
-            laser.SetPosition(0, gravityOrigin.position);
-            laser.SetPosition(1, selectedObject.transform.position);
+            AnimateLaser(
+                gravityOrigin.position,
+                selectedObject.transform.position
+            );
 
             SetLaserColor(selectedColor);
 
             return;
         }
 
-    
+
+        // DETETAR O QUE ESTÁ DEBAIXO DO RATO
+
         Vector3 mouse = cam.ScreenToWorldPoint(Input.mousePosition);
         mouse.z = 0;
 
@@ -70,37 +84,76 @@ public class GravityManipulator : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(
             gravityOrigin.position,
             direction,
-            interactionDistance);
+            interactionDistance
+        );
 
-        if(hit.collider != null)
+
+        if (hit.collider != null)
         {
+            if (hit.collider.GetComponent<GravityObject>() == null)
+            {
+                laser.enabled = false;
+                return;
+            }
+
             GravityObject obj =
                 hit.collider.GetComponent<GravityObject>();
 
-            if(obj != null)
+            laser.enabled = true;
+
+            AnimateLaser(
+                gravityOrigin.position,
+                obj.transform.position
+            );
+
+            SetLaserColor(hoverColor);
+
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                laser.enabled = true;
+                selectedObject = obj;
 
-                laser.SetPosition(0, gravityOrigin.position);
-                laser.SetPosition(1, obj.transform.position);
-
-                // O objeto está apenas a ser apontado pelo rato
-                SetLaserColor(hoverColor);
-
-                if(Input.GetKeyDown(KeyCode.E))
-                {
-                    selectedObject = obj;
-
-                    // Agora passa a estar selecionado
-                    SetLaserColor(selectedColor);
-                }
-
-                return;
+                SetLaserColor(selectedColor);
             }
+
+            return;
         }
 
         laser.enabled = false;
     }
+
+
+    void AnimateLaser(Vector2 start, Vector2 end)
+    {
+        int pointCount = laser.positionCount;
+
+        Vector2 direction = end - start;
+
+        Vector2 perpendicular =
+            new Vector2(-direction.y, direction.x).normalized;
+
+        for(int i = 0; i < pointCount; i++)
+        {
+            float t = (float)i / (pointCount - 1);
+
+            Vector2 position =
+                Vector2.Lerp(start, end, t);
+
+            float wave =
+                Mathf.Sin(Time.time * laserWaveSpeed + t * 10f)
+                * laserWaveAmplitude;
+
+            position += perpendicular * wave;
+
+            laser.SetPosition(i, position);
+        }
+    }
+
+    void SetLaserColor(Color color)
+    {
+        laser.startColor = color;
+        laser.endColor = color;
+    }
+
 
     void HandleGravityInput()
     {
@@ -124,11 +177,5 @@ public class GravityManipulator : MonoBehaviour
         {
             selectedObject.Stop();
         }
-    }
-
-    void SetLaserColor(Color color)
-    {
-        laser.startColor = color;
-        laser.endColor = color;
     }
 }
