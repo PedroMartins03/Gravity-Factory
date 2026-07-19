@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,33 +12,37 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
 
     private Rigidbody2D rb;
+    private Animator anim;
 
     private float moveInput;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     void Update()
     {
+        moveInput = 0;
+        if (Input.GetKey(KeyCode.A)) moveInput = -1;
+        if (Input.GetKey(KeyCode.D)) moveInput = 1;
 
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+        bool running = moveInput != 0;
+        anim.SetBool("isRunning", running);
+
+        bool grounded = IsGrounded();
+        anim.SetBool("isGrounded", grounded);
+
+        if (Input.GetKeyDown(KeyCode.Space) && grounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
 
-        moveInput = 0;
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            moveInput = -1;
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            moveInput = 1;
-        }
+        if (moveInput > 0)
+            transform.localScale = new Vector3(0.5f,0.5f,0.5f);
+        else if (moveInput < 0)
+            transform.localScale = new Vector3(-0.5f,0.5f,0.5f);
     }
 
     void FixedUpdate()
@@ -54,4 +59,21 @@ public class PlayerController : MonoBehaviour
             groundLayer
         );
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.name.ToLower().Contains("laser"))
+        {
+            LaserBarrier laser = other.GetComponent<LaserBarrier>();
+            if (laser != null && laser.IsDangerous())
+            {
+                KillPlayer();
+            }
+        }
+    }
+
+private void KillPlayer()
+{
+    UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+}
 }
