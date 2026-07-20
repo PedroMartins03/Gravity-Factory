@@ -35,7 +35,6 @@ public class GravityManipulator : MonoBehaviour
 
     void Update()
     {
-
         if (selectedObject != null && Input.GetKeyDown(KeyCode.E))
         {
             selectedObject.Stop();
@@ -72,91 +71,136 @@ public class GravityManipulator : MonoBehaviour
             return;
         }
 
+        // POSIÇÃO DO RATO
 
-        // DETETAR O QUE ESTÁ DEBAIXO DO RATO
+        Vector3 mouse =
+            cam.ScreenToWorldPoint(Input.mousePosition);
 
-        Vector3 mouse = cam.ScreenToWorldPoint(Input.mousePosition);
-        mouse.z = 0;
+        mouse.z = 0f;
 
-        Vector2 direction = (mouse - transform.position).normalized;
+
+        // DIREÇÃO DO PLAYER ATÉ AO RATO
+
+        Vector2 direction =
+            ((Vector2)mouse - (Vector2)transform.position)
+            .normalized;
+
+
+        // RAYCAST À FRENTE DO PLAYER
 
         float raycastOffset = 0.6f;
 
-        Vector2 raycastOrigin = (Vector2)transform.position + direction * raycastOffset;
+        Vector2 raycastOrigin =
+            (Vector2)transform.position
+            + direction * raycastOffset;
+
 
         RaycastHit2D hit = Physics2D.Raycast(
             raycastOrigin,
             direction,
-            interactionDistance
+            interactionDistance,
+            interactionLayers
         );
 
 
+        // OBJETO DETETADO
+
         if (hit.collider != null)
         {
-            if (hit.collider.GetComponent<GravityObject>() == null)
-            {
-                laser.enabled = false;
-                return;
-            }
-
             GravityObject obj =
                 hit.collider.GetComponent<GravityObject>();
 
-            laser.enabled = true;
 
-            AnimateLaser(
-                gravityOrigin.position,
-                obj.transform.position
-            );
-
-            SetLaserColor(hoverColor);
-
-            if (Input.GetKeyDown(KeyCode.E))
+            if (obj != null)
             {
-                selectedObject = obj;
+                laser.enabled = true;
 
-                SetLaserColor(selectedColor);
+
+                // LINHA ONDULADA
+                AnimateLaser(
+                    gravityOrigin.position,
+                    obj.transform.position
+                );
+
+
+                // COR DE HOVER
+                SetLaserColor(hoverColor);
+
+
+                // SELECIONAR COM E
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    selectedObject = obj;
+
+                    SetLaserColor(selectedColor);
+                }
+
+                return;
             }
-
-            return;
         }
+        
+        // NADA DETETADO
 
         laser.enabled = false;
     }
 
 
-    void AnimateLaser(Vector2 start, Vector2 end)
+    void AnimateLaser(Vector3 start, Vector3 end)
     {
-        int pointCount = laser.positionCount;
+        int pointCount = 20;
 
-        Vector2 direction = end - start;
+        laser.positionCount = pointCount;
 
-        Vector2 perpendicular =
-            new Vector2(-direction.y, direction.x).normalized;
+        Vector3 direction = end - start;
 
-        for(int i = 0; i < pointCount; i++)
+        Vector3 perpendicular =
+            new Vector3(-direction.y, direction.x, 0f).normalized;
+
+        for (int i = 0; i < pointCount; i++)
         {
             float t = (float)i / (pointCount - 1);
 
-            Vector2 position =
-                Vector2.Lerp(start, end, t);
+            Vector3 position =
+                Vector3.Lerp(start, end, t);
 
             float wave =
-                Mathf.Sin(Time.time * laserWaveSpeed + t * 10f)
+                Mathf.Sin(
+                    Time.time * laserWaveSpeed
+                    + t * Mathf.PI * 4f
+                )
                 * laserWaveAmplitude;
 
-            position += perpendicular * wave;
+            // Evita que as pontas do laser se afastem
+            // do início e do fim
+            float fade = Mathf.Sin(t * Mathf.PI);
+
+            position += perpendicular * wave * fade;
 
             laser.SetPosition(i, position);
         }
     }
 
+
     void SetLaserColor(Color color)
     {
-        laser.startColor = color;
-        laser.endColor = color;
-    }
+        Gradient gradient = new Gradient();
 
+        gradient.SetKeys(
+            new GradientColorKey[]
+            {
+                new GradientColorKey(color, 0f),
+                new GradientColorKey(color, 1f)
+            },
+
+            new GradientAlphaKey[]
+            {
+                new GradientAlphaKey(1f, 0f),
+                new GradientAlphaKey(1f, 1f)
+            }
+        );
+
+        laser.colorGradient = gradient;
+    }
 
     void HandleGravityInput()
     {
