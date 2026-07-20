@@ -10,6 +10,13 @@ public class LevelManager : MonoBehaviour
 
     public void RestartCurrentLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().buildIndex
+        );
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
