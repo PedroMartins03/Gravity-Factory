@@ -852,6 +852,9 @@ Transform:
   - {fileID: 1561500256}
   - {fileID: 325733160}
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 563dd02 (Revert "Merge branch 'main' of https://github.com/PedroMartins03/Gravity-Factory")
 --- !u!1 &807687875
 GameObject:
   m_ObjectHideFlags: 0
@@ -936,10 +939,13 @@ AudioSource:
 --- !u!1 &995608378
 GameObject:
   m_ObjectHideFlags: 0
+<<<<<<< HEAD
 =======
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 >>>>>>> parent of a926d22 (sistema de saves pronto a ser utilizado)
+=======
+>>>>>>> parent of 563dd02 (Revert "Merge branch 'main' of https://github.com/PedroMartins03/Gravity-Factory")
 --- !u!1 &995608378
 GameObject:
   m_ObjectHideFlags: 0
