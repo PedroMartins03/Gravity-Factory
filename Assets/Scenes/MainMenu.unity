@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c5b207374fc0f4469668862dbf5102d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoadGameMenu
-  loadGameImage: {fileID: 0}
+  loadGameImage: {fileID: 1311037414}
   mainMenuPanel: {fileID: 1927661987}
   slot1Status: {fileID: 1286220621}
   slot2Status: {fileID: 1135028668}
