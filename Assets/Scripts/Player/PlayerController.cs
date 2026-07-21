@@ -3,54 +3,43 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Configurações de Áudio (SFX)")]
-    public AudioSource audioSource;
-    public AudioClip walkSound;
-    public AudioClip jumpSound;
-
-    [Header("Parâmetros do Som de Passos")]
-    public float stepInterval = 0.3f; 
-    private float stepTimer;
-
     [SerializeField] private float jumpForce = 8f;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.2f;
     [SerializeField] private LayerMask groundLayer;
 
+    private bool canJump = true;
     public float moveSpeed = 5f;
 
     private Rigidbody2D rb;
     private Animator anim;
 
     private float moveInput;
-    private bool isDead = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        if (audioSource == null)
-            audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
     {
-        if (isDead) return;
         moveInput = 0;
         if (Input.GetKey(KeyCode.A)) moveInput = -1;
         if (Input.GetKey(KeyCode.D)) moveInput = 1;
-        
+
         bool running = moveInput != 0;
         anim.SetBool("isRunning", running);
 
         bool grounded = IsGrounded();
         anim.SetBool("isGrounded", grounded);
 
-        HandleStepSounds(moveInput, grounded);
-
         if (Input.GetKeyDown(KeyCode.Space) && grounded)
         {
-            Jump();
+            rb.linearVelocity = new Vector2(
+                rb.linearVelocity.x,
+                jumpForce
+            );
         }
 
         if (moveInput > 0)
@@ -74,43 +63,20 @@ public class PlayerController : MonoBehaviour
         );
     }
 
-    public void KillPlayer()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (isDead) return;
-        isDead = true;
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
-    }
-
-    void HandleStepSounds(float input, bool grounded)
-    {
-        if (grounded && Mathf.Abs(input) > 0.1f)
+        if (other.gameObject.name.ToLower().Contains("laser"))
         {
-            stepTimer -= Time.deltaTime;
-
-            if (stepTimer <= 0f)
+            LaserBarrier laser = other.GetComponent<LaserBarrier>();
+            if (laser != null && laser.IsDangerous())
             {
-                if (walkSound != null && audioSource != null)
-                {
-                    audioSource.PlayOneShot(walkSound);
-                }
-                stepTimer = stepInterval; 
+                KillPlayer();
             }
         }
-        else
-        {
-            stepTimer = 0f; 
-        }
     }
 
-    void Jump()
-    {
-        if (jumpSound != null && audioSource != null)
-        {
-            rb.linearVelocity = new Vector2(
-                rb.linearVelocity.x,
-                jumpForce
-            );
-            audioSource.PlayOneShot(jumpSound);
-        }
-    }
+private void KillPlayer()
+{
+    UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+}
 }
