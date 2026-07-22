@@ -3,7 +3,6 @@ using TMPro;
 
 public class SaveSlotMenu : MonoBehaviour
 {
-
     [Header("Player")]
     [SerializeField]
     private Transform player;
@@ -12,15 +11,27 @@ public class SaveSlotMenu : MonoBehaviour
     [SerializeField]
     private GravityObject[] gravityObjects;
 
+    [Header("Saveable Objects (Optional)")]
+    [SerializeField]
+    private SaveableObject[] saveableObjects;
 
     [Header("Panels")]
-    [SerializeField] private GameObject saveSlotPanel;
-    [SerializeField] private GameObject pauseWindow;
+    [SerializeField]
+    private GameObject saveSlotPanel;
+
+    [SerializeField]
+    private GameObject pauseWindow;
 
     [Header("Slot Status Text")]
-    [SerializeField] private TMP_Text slot1Status;
-    [SerializeField] private TMP_Text slot2Status;
-    [SerializeField] private TMP_Text slot3Status;
+    [SerializeField]
+    private TMP_Text slot1Status;
+
+    [SerializeField]
+    private TMP_Text slot2Status;
+
+    [SerializeField]
+    private TMP_Text slot3Status;
+
 
     public void OpenSaveSlotMenu()
     {
@@ -30,18 +41,21 @@ public class SaveSlotMenu : MonoBehaviour
         UpdateSlotStatus();
     }
 
+
     public void CloseSaveSlotMenu()
     {
         saveSlotPanel.SetActive(false);
         pauseWindow.SetActive(true);
     }
 
+
     public void SaveToSlot(int slot)
     {
         SaveSystem.Save(
             slot,
             player,
-            gravityObjects
+            gravityObjects,
+            saveableObjects
         );
 
         Debug.Log(
@@ -50,6 +64,7 @@ public class SaveSlotMenu : MonoBehaviour
 
         UpdateSlotStatus();
     }
+
 
     private void UpdateSlotStatus()
     {
@@ -69,6 +84,7 @@ public class SaveSlotMenu : MonoBehaviour
         );
     }
 
+
     private void UpdateSlotText(
         TMP_Text statusText,
         int slot
@@ -86,7 +102,8 @@ public class SaveSlotMenu : MonoBehaviour
         }
         else
         {
-            statusText.text = "EMPTY SLOT";
+            statusText.text =
+                "EMPTY SLOT";
         }
     }
 
@@ -101,6 +118,11 @@ public class SaveSlotMenu : MonoBehaviour
         SaveSystem.LoadGravityObjects(
             slot,
             gravityObjects
+        );
+
+        SaveSystem.LoadSaveableObjects(
+            slot,
+            saveableObjects
         );
 
         Debug.Log(

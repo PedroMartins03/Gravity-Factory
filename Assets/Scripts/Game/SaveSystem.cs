@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using UnityEngine;
+using System.Collections.Generic;
 
 public static class SaveSystem
 {
@@ -12,11 +13,7 @@ public static class SaveSystem
         );
     }
 
-    public static void Save(
-        int slot,
-        Transform player,
-        GravityObject[] gravityObjects
-    )
+    public static void Save(int slot, Transform player, GravityObject[] gravityObjects, SaveableObject[] saveableObjects = null)
     {
         SaveData data = new SaveData();
 
@@ -51,6 +48,36 @@ public static class SaveSystem
 
             data.gravityBoxes[i].positionY =
                 gravityObjects[i].transform.position.y;
+        }
+
+        if (saveableObjects != null)
+        {
+            data.saveableObjects =
+                new List<SaveableObjectData>();
+
+            foreach (
+                SaveableObject saveableObject
+                in saveableObjects
+            )
+            {
+                if (saveableObject == null)
+                {
+                    continue;
+                }
+
+                SaveableObjectData objectData =
+                    new SaveableObjectData();
+
+                objectData.objectID =
+                    saveableObject.ObjectID;
+
+                objectData.isActive =
+                    saveableObject.IsActive();
+
+                data.saveableObjects.Add(
+                    objectData
+                );
+            }
         }
 
         string json = JsonUtility.ToJson(data, true);
@@ -144,10 +171,7 @@ public static class SaveSystem
     }
 
 
-    public static void LoadGravityObjects(
-        int slot,
-        GravityObject[] gravityObjects
-    )
+    public static void LoadGravityObjects(int slot, GravityObject[] gravityObjects)
     {
         SaveData data = Load(slot);
 
@@ -180,6 +204,57 @@ public static class SaveSystem
         );
     }
 
+    public static void LoadSaveableObjects(int slot, SaveableObject[] saveableObjects)
+    {
+        SaveData data = Load(slot);
+
+        if (data == null)
+        {
+            Debug.Log(
+                "Não existe nenhum save nesse slot."
+            );
+
+            return;
+        }
+
+        if (
+            data.saveableObjects == null ||
+            saveableObjects == null
+        )
+        {
+            return;
+        }
+
+        foreach (
+            SaveableObjectData savedObject
+            in data.saveableObjects
+        )
+        {
+            foreach (
+                SaveableObject saveableObject
+                in saveableObjects
+            )
+            {
+                if (
+                    saveableObject != null &&
+                    saveableObject.ObjectID ==
+                    savedObject.objectID
+                )
+                {
+                    saveableObject.SetActiveState(
+                        savedObject.isActive
+                    );
+
+                    break;
+                }
+            }
+        }
+
+        Debug.Log(
+            "Estados dos objetos carregados."
+        );
+    }
+
 }
 
 [Serializable]
@@ -192,6 +267,8 @@ public class SaveData
     public float playerPositionY;
 
     public GravityBoxSaveData[] gravityBoxes;
+
+    public List<SaveableObjectData> saveableObjects;
 }
 
 
@@ -202,4 +279,12 @@ public class GravityBoxSaveData
 
     public float positionX;
     public float positionY;
+}
+
+
+[System.Serializable]
+public class SaveableObjectData
+{
+    public string objectID;
+    public bool isActive;
 }

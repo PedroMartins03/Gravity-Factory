@@ -5678,7 +5678,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 724675685}
         m_TargetAssemblyTypeName: SaveSlotMenu, Assembly-CSharp
         m_MethodName: CloseSaveSlotMenu
         m_Mode: 1
@@ -6036,6 +6036,7 @@ GameObject:
   - component: {fileID: 654416640}
   - component: {fileID: 654416638}
   - component: {fileID: 654416639}
+  - component: {fileID: 654416641}
   m_Layer: 0
   m_Name: btnIdle
   m_TagString: Untagged
@@ -6178,6 +6179,19 @@ MonoBehaviour:
   btnIdle: {fileID: 654416636}
   doorClosed: {fileID: 0}
   doorOpen: {fileID: 0}
+--- !u!114 &654416641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654416636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04bb65aa30e9b764eb1e20b5daf539ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveableObject
+  objectID: button_1
 --- !u!1 &679223356
 GameObject:
   m_ObjectHideFlags: 0
@@ -6490,6 +6504,10 @@ MonoBehaviour:
   player: {fileID: 1840730167}
   gravityObjects:
   - {fileID: 1034415731}
+  saveableObjects:
+  - {fileID: 1446372783}
+  - {fileID: 1949820785}
+  - {fileID: 654416641}
   saveSlotPanel: {fileID: 1029351116}
   pauseWindow: {fileID: 1595058488}
   slot1Status: {fileID: 2109397001}
@@ -6528,7 +6546,6 @@ Transform:
   - {fileID: 1637033593}
   - {fileID: 1043180675}
   - {fileID: 245736485}
-  - {fileID: 1095451979}
   - {fileID: 339782661}
   - {fileID: 724675684}
   - {fileID: 1904136373}
@@ -7965,53 +7982,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1056734737}
   m_CullTransparentMesh: 1
---- !u!1 &1095451978
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1095451979}
-  - component: {fileID: 1095451980}
-  m_Layer: 0
-  m_Name: LoadGameOnLevelStart
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1095451979
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1095451978}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 773061320}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1095451980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1095451978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21dceb2d643fda44e8c9537f6a5a5e9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LoadSaveOnLevelStart
-  player: {fileID: 1840730167}
-  gravityObjects:
-  - {fileID: 1034415731}
 --- !u!1 &1104070955
 GameObject:
   m_ObjectHideFlags: 0
@@ -9054,6 +9024,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1446372782}
   - component: {fileID: 1446372781}
+  - component: {fileID: 1446372783}
   m_Layer: 0
   m_Name: Computer
   m_TagString: Untagged
@@ -9135,6 +9106,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1126532605}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1446372783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446372780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04bb65aa30e9b764eb1e20b5daf539ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveableObject
+  objectID: computer_activated
 --- !u!1 &1465012838
 GameObject:
   m_ObjectHideFlags: 0
@@ -10614,6 +10598,10 @@ MonoBehaviour:
   player: {fileID: 1840730167}
   gravityObjects:
   - {fileID: 1034415731}
+  saveableObjects:
+  - {fileID: 1446372783}
+  - {fileID: 1949820785}
+  - {fileID: 654416641}
 --- !u!1 &1908263320
 GameObject:
   m_ObjectHideFlags: 0
@@ -10717,6 +10705,7 @@ GameObject:
   - component: {fileID: 1949820784}
   - component: {fileID: 1949820783}
   - component: {fileID: 1949820782}
+  - component: {fileID: 1949820785}
   m_Layer: 0
   m_Name: ComputerDeactivated
   m_TagString: Untagged
@@ -10859,6 +10848,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1949820785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949820780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04bb65aa30e9b764eb1e20b5daf539ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveableObject
+  objectID: computer_deactivated
 --- !u!1 &1956471982
 GameObject:
   m_ObjectHideFlags: 0

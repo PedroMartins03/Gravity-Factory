@@ -8,9 +8,17 @@ public class LoadSaveOnLevelStart : MonoBehaviour
     [SerializeField]
     private GravityObject[] gravityObjects;
 
+    [Header("Saveable Objects (Optional)")]
+    [SerializeField]
+    private SaveableObject[] saveableObjects;
+
+
     private void Start()
     {
-        if (ContinueGame.saveSlotToLoad == -1)
+        if (
+            ContinueGame.saveSlotToLoad ==
+            -1
+        )
         {
             return;
         }
@@ -18,17 +26,28 @@ public class LoadSaveOnLevelStart : MonoBehaviour
         int slot =
             ContinueGame.saveSlotToLoad;
 
+
         SaveSystem.LoadPlayerPosition(
             slot,
             player
         );
+
 
         SaveSystem.LoadGravityObjects(
             slot,
             gravityObjects
         );
 
-        ContinueGame.saveSlotToLoad = -1;
+
+        SaveSystem.LoadSaveableObjects(
+            slot,
+            saveableObjects
+        );
+
+
+        ContinueGame.saveSlotToLoad =
+            -1;
+
 
         Debug.Log(
             "Save carregado ao iniciar o nível."
