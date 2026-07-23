@@ -5,7 +5,6 @@ public class LevelManager : MonoBehaviour
 {
     public void LoadScene(string sceneName)
     {
-        Debug.Log("A tentar carregar a cena: " + sceneName);
         SceneManager.LoadScene(sceneName);
     }
 
