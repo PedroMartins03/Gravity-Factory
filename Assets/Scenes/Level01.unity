@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 65272472}
   - component: {fileID: 65272471}
   - component: {fileID: 65272470}
+  - component: {fileID: 65272475}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -383,6 +384,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
   sceneToLoad: Level02
+--- !u!114 &65272475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 65272468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04bb65aa30e9b764eb1e20b5daf539ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveableObject
+  objectID: door_level1
 --- !u!1 &80625276
 GameObject:
   m_ObjectHideFlags: 0
@@ -6701,7 +6715,9 @@ MonoBehaviour:
   player: {fileID: 1840730167}
   gravityObjects:
   - {fileID: 1034415731}
-  saveableObjects: []
+  saveableObjects:
+  - {fileID: 65272475}
+  - {fileID: 1321093086}
   saveSlotPanel: {fileID: 1019767563}
   pauseWindow: {fileID: 1434919866}
   slot1Status: {fileID: 1588900752}
@@ -7153,7 +7169,9 @@ MonoBehaviour:
   player: {fileID: 1840730167}
   gravityObjects:
   - {fileID: 1034415731}
-  saveableObjects: []
+  saveableObjects:
+  - {fileID: 65272475}
+  - {fileID: 1321093086}
 --- !u!1 &1109677540
 GameObject:
   m_ObjectHideFlags: 0
@@ -7665,7 +7683,7 @@ Transform:
   m_GameObject: {fileID: 1321093084}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -18.52, y: 4.47, z: 0}
+  m_LocalPosition: {x: 10.385, y: 9.352, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
