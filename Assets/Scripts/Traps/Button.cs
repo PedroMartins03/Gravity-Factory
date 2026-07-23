@@ -2,16 +2,23 @@ using UnityEngine;
 
 public class Button : MonoBehaviour
 {
-    [SerializeField] private GameObject btnIdle;    
-    [SerializeField] private GameObject doorClosed;
-    [SerializeField] private GameObject doorOpen;
+    [SerializeField] private Door doorScript; 
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Box"))
         {
-            if (doorClosed != null) doorClosed.SetActive(false);
-            if (doorOpen != null) doorOpen.SetActive(true);
+            if (doorScript != null)
+                doorScript.OpenDoor();
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Box"))
+        {
+            if (doorScript != null)
+                doorScript.CloseDoor();
         }
     }
 }
