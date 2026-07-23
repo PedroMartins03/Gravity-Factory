@@ -58,10 +58,6 @@ public class SaveSlotMenu : MonoBehaviour
             saveableObjects
         );
 
-        Debug.Log(
-            "Jogo guardado no Save " + slot
-        );
-
         UpdateSlotStatus();
     }
 
@@ -123,10 +119,6 @@ public class SaveSlotMenu : MonoBehaviour
         SaveSystem.LoadSaveableObjects(
             slot,
             saveableObjects
-        );
-
-        Debug.Log(
-            "Save " + slot + " carregado."
         );
     }
 }

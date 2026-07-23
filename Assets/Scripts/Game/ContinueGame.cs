@@ -12,7 +12,6 @@ public class ContinueGame : MonoBehaviour
 
         if (lastSaveSlot == -1)
         {
-            Debug.Log("Não existe nenhum save para continuar.");
             return;
         }
 
@@ -21,7 +20,6 @@ public class ContinueGame : MonoBehaviour
 
         if (data == null)
         {
-            Debug.Log("O save não foi encontrado.");
             return;
         }
 

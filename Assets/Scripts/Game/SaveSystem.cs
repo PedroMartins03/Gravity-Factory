@@ -89,8 +89,6 @@ public static class SaveSystem
 
         PlayerPrefs.SetInt("LastSaveSlot", slot);
         PlayerPrefs.Save();
-
-        Debug.Log("Save " + slot + " guardado.");
     }
 
     public static bool SaveExists(int slot)
@@ -106,8 +104,6 @@ public static class SaveSystem
         {
             File.Delete(path);
         }
-
-        Debug.Log("Save " + slot + " apagado.");
     }
 
     public static int GetLastSaveSlot()
@@ -124,7 +120,6 @@ public static class SaveSystem
         PlayerPrefs.DeleteKey("LastSaveSlot");
         PlayerPrefs.Save();
 
-        Debug.Log("Todos os saves foram apagados.");
     }
 
 
@@ -155,7 +150,6 @@ public static class SaveSystem
 
         if (data == null)
         {
-            Debug.Log("Não existe nenhum save nesse slot.");
             return;
         }
 
@@ -163,10 +157,6 @@ public static class SaveSystem
             data.playerPositionX,
             data.playerPositionY,
             player.position.z
-        );
-
-        Debug.Log(
-            "Posição do Player carregada do Save " + slot
         );
     }
 
@@ -177,7 +167,6 @@ public static class SaveSystem
 
         if (data == null)
         {
-            Debug.Log("Não existe nenhum save nesse slot.");
             return;
         }
 
@@ -199,9 +188,6 @@ public static class SaveSystem
             }
         }
 
-        Debug.Log(
-            "Posições das Gravity Objects carregadas."
-        );
     }
 
     public static void LoadSaveableObjects(int slot, SaveableObject[] saveableObjects)
@@ -210,10 +196,6 @@ public static class SaveSystem
 
         if (data == null)
         {
-            Debug.Log(
-                "Não existe nenhum save nesse slot."
-            );
-
             return;
         }
 
@@ -249,10 +231,6 @@ public static class SaveSystem
                 }
             }
         }
-
-        Debug.Log(
-            "Estados dos objetos carregados."
-        );
     }
 
 }

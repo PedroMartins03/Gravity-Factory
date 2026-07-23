@@ -25,12 +25,7 @@ public class Door : MonoBehaviour
             }
             if (audioSource != null && audioSource.clip != null)
             {
-            audioSource.Play();
-            Debug.Log("A tocar som da porta!"); 
-            }
-            else
-            {
-                Debug.LogWarning("O Audio Source ou o Audio Clip estão vazios na porta!");
+                audioSource.Play();
             }
         }
     }

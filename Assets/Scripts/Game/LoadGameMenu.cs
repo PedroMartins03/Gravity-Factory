@@ -39,7 +39,6 @@ public class LoadGameMenu : MonoBehaviour
     {
         if (!SaveSystem.SaveExists(slot))
         {
-            Debug.Log("Este slot está vazio.");
             return;
         }
 
@@ -48,7 +47,6 @@ public class LoadGameMenu : MonoBehaviour
 
         if (data == null)
         {
-            Debug.Log("Não foi possível carregar o save.");
             return;
         }
 
