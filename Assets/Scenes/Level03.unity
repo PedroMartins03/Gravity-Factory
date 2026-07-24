@@ -6843,6 +6843,7 @@ Transform:
   - {fileID: 339782661}
   - {fileID: 724675684}
   - {fileID: 1904136373}
+  - {fileID: 873383303}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &775474124
@@ -7156,6 +7157,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 802868936}
   m_CullTransparentMesh: 1
+--- !u!1 &873383302
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 873383303}
+  - component: {fileID: 873383304}
+  m_Layer: 0
+  m_Name: CheatManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &873383303
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873383302}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 773061320}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &873383304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873383302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ed50f17792d09849a2536bef87266b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CheatManager
 --- !u!1 &927411142
 GameObject:
   m_ObjectHideFlags: 0
@@ -7463,7 +7508,7 @@ Transform:
   m_GameObject: {fileID: 982780853}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.96, y: 9, z: -8.1}
+  m_LocalPosition: {x: -3, y: 9, z: -8.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10669,6 +10714,8 @@ MonoBehaviour:
   audioSource: {fileID: 1840730176}
   walkSound: {fileID: 8300000, guid: 0016a36f8c82ce849bc57982b3c9752e, type: 3}
   jumpSound: {fileID: 8300000, guid: 32caa3b7c49242641a4f7f9fadbe32b4, type: 3}
+  deathSound: {fileID: 8300000, guid: 18f659ce82d6f5945a664f1b558dd49a, type: 3}
+  deathSoundVolume: 0.2
   stepInterval: 0.25
   jumpForce: 5
   groundCheck: {fileID: 613510054}

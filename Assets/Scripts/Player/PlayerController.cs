@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +8,9 @@ public class PlayerController : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip walkSound;
     public AudioClip jumpSound;
+    public AudioClip deathSound;
+
+    [Range(0f, 1f)] public float deathSoundVolume = 0.5f;
 
     [Header("Parâmetros do Som de Passos")]
     public float stepInterval = 0.3f; 
@@ -61,6 +65,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isDead) return;
         rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
     }
 
@@ -78,7 +83,29 @@ public class PlayerController : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+        
+        rb.linearVelocity = Vector2.zero; 
+        
+        if (deathSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(deathSound, deathSoundVolume);
+            StartCoroutine(ReloadSceneAfterDelay(deathSound.length));
+        }
+        else
+        {
+            ReloadScene();
+        }
+    }
+
+    private IEnumerator ReloadSceneAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay); 
+        ReloadScene();
+    }
+
+    private void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     void HandleStepSounds(float input, bool grounded)
